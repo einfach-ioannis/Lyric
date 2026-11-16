@@ -80,7 +80,7 @@ struct MenuBarSettingsPage: View {
                 .pickerStyle(.radioGroup)
             }
             Section {
-                Toggle("Only show the level meter while paused", isOn: $settings.hidesWhenPaused)
+                Toggle("Only show the cover while paused", isOn: $settings.hidesWhenPaused)
                 Toggle("Scroll over the menu bar item to change volume", isOn: $settings.scrollChangesVolume)
             }
         }

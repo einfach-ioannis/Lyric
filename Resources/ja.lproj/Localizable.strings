@@ -128,7 +128,7 @@
 "Lock Screen player" = "ロック画面のプレーヤー";
 "Lyric Settings" = "Lyric の設定";
 "Not available on this version of macOS." = "このバージョンの macOS では利用できません。";
-"Only show the level meter while paused" = "一時停止中のみレベルメーターを表示";
+"Only show the cover while paused" = "一時停止中はカバーのみ表示";
 "Open %@" = "%@ を開く";
 "Position" = "位置";
 "Report a Problem" = "問題を報告";

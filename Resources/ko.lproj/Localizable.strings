@@ -128,7 +128,7 @@
 "Lock Screen player" = "잠금 화면 플레이어";
 "Lyric Settings" = "Lyric 설정";
 "Not available on this version of macOS." = "이 macOS 버전에서는 사용할 수 없습니다.";
-"Only show the level meter while paused" = "일시 정지 중에만 레벨 미터 표시";
+"Only show the cover while paused" = "일시 정지 시 커버만 표시";
 "Open %@" = "%@ 열기";
 "Position" = "위치";
 "Report a Problem" = "문제 보고";

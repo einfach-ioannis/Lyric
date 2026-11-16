@@ -128,7 +128,7 @@
 "Lock Screen player" = "Плеер на экране блокировки";
 "Lyric Settings" = "Настройки Lyric";
 "Not available on this version of macOS." = "Недоступно в этой версии macOS.";
-"Only show the level meter while paused" = "Показывать индикатор уровня только на паузе";
+"Only show the cover while paused" = "Показывать только обложку на паузе";
 "Open %@" = "Открыть %@";
 "Position" = "Положение";
 "Report a Problem" = "Сообщить о проблеме";

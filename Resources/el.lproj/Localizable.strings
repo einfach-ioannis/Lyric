@@ -128,7 +128,7 @@
 "Lock Screen player" = "Πρόγραμμα αναπαραγωγής στην οθόνη κλειδώματος";
 "Lyric Settings" = "Ρυθμίσεις Lyric";
 "Not available on this version of macOS." = "Δεν είναι διαθέσιμο σε αυτή την έκδοση του macOS.";
-"Only show the level meter while paused" = "Εμφάνιση του μετρητή στάθμης μόνο σε παύση";
+"Only show the cover while paused" = "Εμφάνιση μόνο του εξωφύλλου σε παύση";
 "Open %@" = "Άνοιγμα %@";
 "Position" = "Θέση";
 "Report a Problem" = "Αναφορά προβλήματος";

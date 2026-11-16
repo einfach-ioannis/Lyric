@@ -128,7 +128,7 @@
 "Lock Screen player" = "锁定屏幕播放器";
 "Lyric Settings" = "Lyric 设置";
 "Not available on this version of macOS." = "此 macOS 版本不支持。";
-"Only show the level meter while paused" = "暂停时才显示电平表";
+"Only show the cover while paused" = "暂停时仅显示封面";
 "Open %@" = "打开 %@";
 "Position" = "位置";
 "Report a Problem" = "报告问题";

@@ -10,7 +10,8 @@ struct MenuBarLabelContent: View {
     var body: some View {
         HStack(spacing: Theme.Spacing.compact) {
             if nowPlaying.track != nil, settings.hidesWhenPaused, nowPlaying.isPausedLong {
-                MenuBarLevelMeter()
+                // Long pauses reduce the item to just the cover, at its normal size.
+                MenuBarArtwork(size: Theme.MenuBar.largeArtworkSize)
             } else if let track = nowPlaying.track {
                 switch display {
                 case .iconOnly:

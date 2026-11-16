@@ -128,7 +128,7 @@
 "Lock Screen player" = "Kilit Ekranı Oynatıcısı";
 "Lyric Settings" = "Lyric Ayarları";
 "Not available on this version of macOS." = "Bu macOS sürümünde kullanılamıyor.";
-"Only show the level meter while paused" = "Duraklatıldığında yalnızca seviye göstergesini göster";
+"Only show the cover while paused" = "Duraklatıldığında yalnızca kapağı göster";
 "Open %@" = "%@ Aç";
 "Position" = "Konum";
 "Report a Problem" = "Sorun Bildir";

@@ -128,7 +128,7 @@
 "Lock Screen player" = "Player auf dem Sperrbildschirm";
 "Lyric Settings" = "Lyric-Einstellungen";
 "Not available on this version of macOS." = "Auf dieser macOS-Version nicht verfügbar.";
-"Only show the level meter while paused" = "Bei Pause nur den Pegel zeigen";
+"Only show the cover while paused" = "Bei Pause nur das Cover zeigen";
 "Open %@" = "%@ öffnen";
 "Position" = "Position";
 "Report a Problem" = "Problem melden";

@@ -128,7 +128,7 @@
 "Lock Screen player" = "Lecteur sur l’écran verrouillé";
 "Lyric Settings" = "Réglages de Lyric";
 "Not available on this version of macOS." = "Indisponible sur cette version de macOS.";
-"Only show the level meter while paused" = "Afficher l’indicateur de niveau uniquement pendant la pause";
+"Only show the cover while paused" = "Afficher seulement la pochette en pause";
 "Open %@" = "Ouvrir %@";
 "Position" = "Position";
 "Report a Problem" = "Signaler un problème";
