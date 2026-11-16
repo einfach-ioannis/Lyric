@@ -30,6 +30,8 @@ struct PlayerPopoverView: View {
                 ArtworkBackdrop(image: nowPlaying.artwork, accent: nowPlaying.accent)
                 Color.black.opacity(0.12)
             }
+            // Reach into the popover arrow so it carries the tint too.
+            .ignoresSafeArea()
         }
         .task {
             nowPlaying.refresh()

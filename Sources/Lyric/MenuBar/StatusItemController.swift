@@ -126,6 +126,8 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         popover.behavior = .transient
         popover.animates = true
         popover.appearance = NSAppearance(named: .darkAqua)
+        // Let the tinted backdrop fill the arrow too, instead of the system grey.
+        popover.hasFullSizeContent = true
         popover.delegate = self
     }
 
