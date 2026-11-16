@@ -1,0 +1,13 @@
+.build/
+build/
+.swiftpm/
+*.xcodeproj/
+DerivedData/
+.DS_Store
+*.dmg
+.env*
+# Local assistant/tool state — never published.
+.claude/
+.codex/
+CLAUDE.md
+AGENTS.md

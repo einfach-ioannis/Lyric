@@ -1,0 +1,3 @@
+/* French translation of Lyric. Keys are the English source strings. */
+
+"NSAppleEventsUsageDescription" = "Lyric lit ce qui est en cours de lecture dans Musique et Spotify, et contrôle la lecture.";
