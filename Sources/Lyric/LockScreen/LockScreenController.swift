@@ -114,8 +114,9 @@ final class LockScreenController {
         guard let panel else { return }
         space?.remove(panel)
         panel.orderOut(nil)
-        panel.alphaValue = 0
-        // Drop the space too, so nothing of Lyric stays above the system while unlocked.
+        // Drop the card and the space, so nothing of Lyric stays above the system or keeps
+        // following the song unseen while unlocked. Both are made again on the next lock.
+        self.panel = nil
         space = nil
     }
 

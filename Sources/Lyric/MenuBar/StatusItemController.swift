@@ -42,6 +42,9 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     private func showPopover() {
         guard let button = statusItem.button else { return }
         NSApp.activate()
+        if popover.contentViewController == nil {
+            popover.contentViewController = makePopoverContent()
+        }
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         popover.contentViewController?.view.window?.makeKey()
         itemState.isPopoverShown = true
@@ -59,6 +62,8 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
     func popoverDidClose(_ notification: Notification) {
         itemState.isPopoverShown = false
+        // Release the player while it's closed, so it doesn't keep following the song unseen.
+        popover.contentViewController = nil
     }
 
     // MARK: Quick actions
@@ -113,6 +118,15 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     }
 
     private func configurePopover() {
+        popover.behavior = .transient
+        popover.animates = true
+        popover.appearance = NSAppearance(named: .darkAqua)
+        // Let the tinted backdrop fill the arrow too, instead of the system grey.
+        popover.hasFullSizeContent = true
+        popover.delegate = self
+    }
+
+    private func makePopoverContent() -> NSViewController {
         let rootView = PlayerPopoverView()
             .environment(nowPlaying)
             .environment(library)
@@ -121,14 +135,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
         let hostingController = NSHostingController(rootView: rootView)
         hostingController.sizingOptions = [.preferredContentSize]
-
-        popover.contentViewController = hostingController
-        popover.behavior = .transient
-        popover.animates = true
-        popover.appearance = NSAppearance(named: .darkAqua)
-        // Let the tinted backdrop fill the arrow too, instead of the system grey.
-        popover.hasFullSizeContent = true
-        popover.delegate = self
+        return hostingController
     }
 
     private func resizeItem(to size: NSSize) {
