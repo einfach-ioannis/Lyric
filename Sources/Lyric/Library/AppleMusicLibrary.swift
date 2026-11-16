@@ -43,7 +43,7 @@ final class AppleMusicLibrary {
 
     /// The script's string result, or `nil` when Music isn't running or the script failed.
     private func run(_ source: String) -> String? {
-        guard isMusicRunning, case .success(let descriptor) = runner.run(source) else { return nil }
-        return descriptor.stringValue ?? ""
+        guard isMusicRunning, case .success(let output) = runner.runAndWait(source) else { return nil }
+        return output.string ?? ""
     }
 }

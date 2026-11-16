@@ -2,8 +2,8 @@ import AppKit
 
 /// Talks to Music and Spotify through Apple Events.
 ///
-/// `NSAppleScript` is only safe on the main thread, so every script carries a short
-/// `with timeout` to keep a hung player from stalling the interface.
+/// Scripts run off the main thread (see `AppleScriptRunner`), so reading the player never
+/// stalls the interface; commands are queued and run in order.
 final class PlayerBridge {
     private let runner = AppleScriptRunner()
 
@@ -11,14 +11,14 @@ final class PlayerBridge {
         !NSRunningApplication.runningApplications(withBundleIdentifier: source.bundleIdentifier).isEmpty
     }
 
-    func read(preferring preferred: PlayerSource?) -> PlaybackReading {
+    func read(preferring preferred: PlayerSource?) async -> PlaybackReading {
         var snapshots: [PlaybackSnapshot] = []
         var permissionDenied = false
 
         for source in PlayerSource.allCases where isRunning(source) {
-            switch run(PlayerScripts.status(for: source)) {
-            case .success(let descriptor):
-                if let snapshot = PlayerScripts.parseStatus(descriptor.stringValue, source: source) {
+            switch await runner.run(PlayerScripts.status(for: source)) {
+            case .success(let output):
+                if let snapshot = PlayerScripts.parseStatus(output.string, source: source) {
                     snapshots.append(snapshot)
                 }
             case .failure(let error):
@@ -37,19 +37,15 @@ final class PlayerBridge {
 
     func send(_ command: PlayerCommand, to source: PlayerSource) {
         guard isRunning(source) else { return }
-        _ = run(PlayerScripts.command(command, for: source))
+        runner.enqueue(PlayerScripts.command(command, for: source))
     }
 
     /// Embedded artwork from the Music library, when the track has any.
-    func musicArtworkData() -> Data? {
-        guard isRunning(.appleMusic), case .success(let descriptor) = run(PlayerScripts.musicArtwork) else {
+    func musicArtworkData() async -> Data? {
+        guard isRunning(.appleMusic), case .success(let output) = await runner.run(PlayerScripts.musicArtwork) else {
             return nil
         }
-        let data = descriptor.data
+        let data = output.data
         return data.isEmpty ? nil : data
-    }
-
-    private func run(_ source: String) -> Result<NSAppleEventDescriptor, ScriptError> {
-        runner.run(source)
     }
 }

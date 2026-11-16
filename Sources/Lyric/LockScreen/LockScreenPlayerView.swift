@@ -66,13 +66,14 @@ struct LockScreenLyricsView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 14) {
                         ForEach(lyrics.lines) { line in
-                            let isLit = !lyrics.isSynced || line.id == nowPlaying.currentLyricIndex
-                            Text(line.isBreak ? "♪" : line.text)
-                                .font(.system(size: 28, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .foregroundStyle(.white.opacity(isLit ? 1 : 0.32))
-                                .scaleEffect(isLit ? 1 : 0.94, anchor: .leading)
-                                .animation(Theme.Motion.lyric, value: isLit)
+                            LyricLineView(
+                                line: line,
+                                isSynced: lyrics.isSynced,
+                                isCurrent: line.id == nowPlaying.currentLyricIndex,
+                                distance: nowPlaying.currentLyricIndex.map { abs(line.id - $0) },
+                                nextTime: line.id + 1 < lyrics.lines.count ? lyrics.lines[line.id + 1].time : nil,
+                                fontSize: 28
+                            )
                         }
                     }
                     .scrollTargetLayout()

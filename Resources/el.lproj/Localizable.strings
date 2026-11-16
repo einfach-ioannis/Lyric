@@ -148,3 +148,6 @@
 "Paste your Client ID" = "Επικόλλησε το Client ID";
 "Version %@" = "Έκδοση %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Στίχοι από το LRCLIB · Χωρίς σχέση με την Apple ή το Spotify";
+"Open at Login" = "Άνοιγμα κατά τη σύνδεση";
+"Open Lyric at login" = "Άνοιγμα του Lyric κατά τη σύνδεση";
+"Back to Current Line" = "Πίσω στην τρέχουσα γραμμή";

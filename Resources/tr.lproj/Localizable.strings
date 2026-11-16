@@ -148,3 +148,6 @@
 "Paste your Client ID" = "İstemci kimliğini yapıştır";
 "Version %@" = "Sürüm %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Sözler LRCLIB’den · Apple veya Spotify ile bağlantılı değildir";
+"Open at Login" = "Girişte aç";
+"Open Lyric at login" = "Lyric’i girişte aç";
+"Back to Current Line" = "Şu anki satıra dön";

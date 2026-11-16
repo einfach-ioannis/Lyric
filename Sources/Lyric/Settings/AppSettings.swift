@@ -80,6 +80,12 @@ final class AppSettings {
         launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 
+    /// Picks up changes made in System Settings › Login Items.
+    func refreshLaunchAtLogin() {
+        let isEnabled = SMAppService.mainApp.status == .enabled
+        if launchAtLogin != isEnabled { launchAtLogin = isEnabled }
+    }
+
     /// Brings the login item registration in line with `launchAtLogin`.
     func applyLaunchAtLogin() {
         let service = SMAppService.mainApp

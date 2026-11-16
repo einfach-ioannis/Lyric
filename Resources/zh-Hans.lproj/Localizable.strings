@@ -148,3 +148,6 @@
 "Paste your Client ID" = "粘贴你的客户端 ID";
 "Version %@" = "版本 %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "歌词来自 LRCLIB · 与 Apple 或 Spotify 无关";
+"Open at Login" = "登录时打开";
+"Open Lyric at login" = "登录时打开 Lyric";
+"Back to Current Line" = "回到当前歌词";

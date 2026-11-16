@@ -58,6 +58,7 @@ struct GeneralSettingsPage: View {
                 }
             }
         }
+        .onAppear(perform: settings.refreshLaunchAtLogin)
         .onChange(of: settings.launchAtLogin) {
             settings.applyLaunchAtLogin()
         }

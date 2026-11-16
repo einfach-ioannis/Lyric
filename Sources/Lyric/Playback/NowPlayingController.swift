@@ -34,6 +34,10 @@ final class NowPlayingController {
     private let localChangeHold: TimeInterval = 1.5
 
     @ObservationIgnored private let bridge = PlayerBridge()
+    @ObservationIgnored private var isRefreshing = false
+    @ObservationIgnored private var refreshQueued = false
+    /// Counts commands sent, so a reading that started before one can be told apart.
+    @ObservationIgnored private var commandGeneration = 0
     @ObservationIgnored private let lyricsService = LyricsService()
     @ObservationIgnored private var tickTask: Task<Void, Never>?
     @ObservationIgnored private var detailsTask: Task<Void, Never>?
@@ -45,6 +49,16 @@ final class NowPlayingController {
 
     /// Lyrics are shown a touch early so the highlight lands as the line begins.
     private let lyricLead: TimeInterval = 0.25
+
+    /// The point in the lyrics that matches the song at `date`.
+    func lyricTime(at date: Date) -> TimeInterval {
+        position(at: date) + lyricLead
+    }
+
+    /// Plays from the point where `line` is sung.
+    func seek(to line: LyricLine) {
+        seek(to: line.time)
+    }
 
     var loadedLyrics: Lyrics? {
         if case .loaded(let lyrics) = lyrics { lyrics } else { nil }
@@ -98,8 +112,33 @@ final class NowPlayingController {
         }
     }
 
+    /// Reads the player in the background. Only one read runs at a time; a refresh asked for
+    /// meanwhile runs right after it.
     func refresh() {
-        switch bridge.read(preferring: track?.source) {
+        guard !isRefreshing else {
+            refreshQueued = true
+            return
+        }
+        isRefreshing = true
+        let generation = commandGeneration
+        Task {
+            let reading = await bridge.read(preferring: track?.source)
+            isRefreshing = false
+            // A command sent while reading makes the reading stale; the queued refresh after it is current.
+            if generation == commandGeneration {
+                apply(reading)
+            } else {
+                refreshQueued = true
+            }
+            if refreshQueued {
+                refreshQueued = false
+                refresh()
+            }
+        }
+    }
+
+    private func apply(_ reading: PlaybackReading) {
+        switch reading {
         case .snapshot(let snapshot):
             apply(snapshot)
         case .nothingPlaying:
@@ -111,32 +150,37 @@ final class NowPlayingController {
         }
     }
 
+    private func send(_ command: PlayerCommand, to source: PlayerSource) {
+        commandGeneration += 1
+        bridge.send(command, to: source)
+    }
+
     // MARK: Controls
 
     func togglePlayPause() {
         guard let track else { return }
         reanchor(to: position(at: .now))
         isPlaying.toggle()
-        bridge.send(.playPause, to: track.source)
+        send(.playPause, to: track.source)
         scheduleRefresh()
     }
 
     func nextTrack() {
         guard let track else { return }
-        bridge.send(.nextTrack, to: track.source)
+        send(.nextTrack, to: track.source)
         scheduleRefresh()
     }
 
     func previousTrack() {
         guard let track else { return }
-        bridge.send(.previousTrack, to: track.source)
+        send(.previousTrack, to: track.source)
         scheduleRefresh()
     }
 
     func seek(to time: TimeInterval) {
         guard let track else { return }
         reanchor(to: time)
-        bridge.send(.seek(time), to: track.source)
+        send(.seek(time), to: track.source)
         updateLyricIndex()
     }
 
@@ -145,7 +189,7 @@ final class NowPlayingController {
         let enabled = !(isShuffling ?? false)
         isShuffling = enabled
         shuffleChangedAt = .now
-        bridge.send(.setShuffle(enabled), to: track.source)
+        send(.setShuffle(enabled), to: track.source)
         scheduleRefresh()
     }
 
@@ -154,7 +198,7 @@ final class NowPlayingController {
         let enabled = !(isRepeating ?? false)
         isRepeating = enabled
         repeatChangedAt = .now
-        bridge.send(.setRepeat(enabled), to: track.source)
+        send(.setRepeat(enabled), to: track.source)
         scheduleRefresh()
     }
 
@@ -166,7 +210,7 @@ final class NowPlayingController {
         self.volume = clamped
         volumeChangedAt = .now
         guard VolumeLevel.needsSend(from: previous, to: clamped) else { return }
-        bridge.send(.setVolume(VolumeLevel.step(clamped)), to: track.source)
+        send(.setVolume(VolumeLevel.step(clamped)), to: track.source)
     }
 
     func openSourceApp() {
@@ -257,7 +301,7 @@ final class NowPlayingController {
             if currentLyricIndex != nil { currentLyricIndex = nil }
             return
         }
-        let index = lyrics.lineIndex(at: position(at: .now) + lyricLead)
+        let index = lyrics.lineIndex(at: lyricTime(at: .now))
         if index != currentLyricIndex {
             currentLyricIndex = index
         }
@@ -306,7 +350,7 @@ final class NowPlayingController {
     }
 
     private func artworkData(for track: Track) async -> Data? {
-        if track.source == .appleMusic, let embedded = bridge.musicArtworkData() {
+        if track.source == .appleMusic, let embedded = await bridge.musicArtworkData() {
             return embedded
         }
         if let url = track.artworkURL, let downloaded = await ArtworkFetcher.download(url) {

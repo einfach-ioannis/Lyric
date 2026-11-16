@@ -7,6 +7,8 @@ struct LyricsScrollView: View {
 
     @Environment(NowPlayingController.self) private var nowPlaying
     @State private var position = ScrollPosition(idType: Int.self)
+    /// Off once the user scrolls the lyrics themselves, until they jump back.
+    @State private var isFollowing = true
 
     var body: some View {
         ScrollView {
@@ -16,7 +18,13 @@ struct LyricsScrollView: View {
                         Button {
                             seek(to: line)
                         } label: {
-                            LyricLineView(line: line, isSynced: true, isCurrent: line.id == currentIndex)
+                            LyricLineView(
+                                line: line,
+                                isSynced: true,
+                                isCurrent: line.id == currentIndex,
+                                distance: isFollowing ? currentIndex.map { abs(line.id - $0) } : nil,
+                                nextTime: line.id + 1 < lyrics.lines.count ? lyrics.lines[line.id + 1].time : nil
+                            )
                         }
                         .buttonStyle(.plain)
                     } else {
@@ -45,8 +53,24 @@ struct LyricsScrollView: View {
                 endPoint: .bottom
             )
         }
+        .onScrollPhaseChange { _, phase in
+            if phase == .interacting, lyrics.isSynced {
+                withAnimation(.smooth) { isFollowing = false }
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if !isFollowing, currentIndex != nil {
+                Button("Back to Current Line", systemImage: "arrow.down.to.line.compact", action: resync)
+                    .buttonStyle(ResyncButtonStyle())
+                    .padding(.bottom, Theme.Spacing.medium)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
         .onChange(of: currentIndex, initial: true) { _, newIndex in
-            follow(newIndex)
+            if isFollowing { follow(newIndex) }
+        }
+        .onChange(of: lyrics) {
+            isFollowing = true
         }
     }
 
@@ -57,7 +81,28 @@ struct LyricsScrollView: View {
         }
     }
 
+    private func resync() {
+        withAnimation(.smooth) { isFollowing = true }
+        follow(currentIndex)
+    }
+
     private func seek(to line: LyricLine) {
-        nowPlaying.seek(to: line.time)
+        nowPlaying.seek(to: line)
+        withAnimation(.smooth) { isFollowing = true }
+    }
+}
+
+/// A small glass capsule floating over the lyrics.
+private struct ResyncButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 12, weight: .semibold))
+            .labelStyle(.titleAndIcon)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 7)
+            .glassEffect(.regular.interactive(), in: .capsule)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.snappy, value: configuration.isPressed)
     }
 }

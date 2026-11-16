@@ -148,3 +148,6 @@
 "Paste your Client ID" = "クライアントIDを貼り付け";
 "Version %@" = "バージョン %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "歌詞提供: LRCLIB · Apple および Spotify とは無関係です";
+"Open at Login" = "ログイン時に開く";
+"Open Lyric at login" = "ログイン時にLyricを開く";
+"Back to Current Line" = "現在の行に戻る";

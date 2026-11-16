@@ -29,3 +29,30 @@ struct LRCParserTests {
         #expect(lines.map(\.text) == ["Hello"])
     }
 }
+
+@Suite struct LRCEnhancedTests {
+    @Test func dropsWordTimings() {
+        let line = LRCParser.parse("[00:10.00]<00:10.00> Hello <00:10.80> big <00:11.50> world")[0]
+        #expect(line.text == "Hello big world")
+        #expect(line.time == 10)
+    }
+}
+
+@Suite struct LyricBreaksTests {
+    @Test func addsIntroAndGapBreaks() {
+        let lines = LyricBreaks.inserting(into: LRCParser.parse("""
+        [00:12.00]First line here
+        [00:15.00]Second line
+        [00:40.00]After the solo
+        """))
+        #expect(lines.map(\.isBreak) == [true, false, false, true, false])
+        #expect(lines[0].time == 0)
+        #expect(lines[3].time > 15 && lines[3].time < 22)
+        #expect(lines.map(\.id) == Array(0..<5))
+    }
+
+    @Test func keepsExistingBreaksAndShortGaps() {
+        let lines = LRCParser.parse("[00:01.00]One\n[00:03.00]Two\n[00:05.00]\n[00:30.00]Three")
+        #expect(LyricBreaks.inserting(into: lines) == lines)
+    }
+}

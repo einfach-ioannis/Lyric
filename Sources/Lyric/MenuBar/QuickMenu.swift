@@ -53,6 +53,13 @@ enum QuickMenu {
             lockItem.state = settings.showsLockScreenPlayer ? .on : .off
             menu.addItem(lockItem)
         }
+        settings.refreshLaunchAtLogin()
+        let loginItem = ClosureMenuItem.make(title: String(localized: "Open at Login"), symbol: "power.circle") {
+            settings.launchAtLogin.toggle()
+            settings.applyLaunchAtLogin()
+        }
+        loginItem.state = settings.launchAtLogin ? .on : .off
+        menu.addItem(loginItem)
         menu.addItem(ClosureMenuItem.make(title: String(localized: "Settings…"), symbol: "gearshape") {
             SettingsWindowController.shared.show()
         })

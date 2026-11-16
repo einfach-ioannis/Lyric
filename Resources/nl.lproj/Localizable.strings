@@ -148,3 +148,6 @@
 "Paste your Client ID" = "Plak je client-ID";
 "Version %@" = "Versie %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Songteksten van LRCLIB · Niet gelieerd aan Apple of Spotify";
+"Open at Login" = "Openen bij inloggen";
+"Open Lyric at login" = "Lyric openen bij inloggen";
+"Back to Current Line" = "Terug naar huidige regel";

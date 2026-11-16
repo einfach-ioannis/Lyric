@@ -148,3 +148,6 @@
 "Paste your Client ID" = "클라이언트 ID 붙여넣기";
 "Version %@" = "버전 %@";
 "Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "가사 제공: LRCLIB · Apple 및 Spotify와 무관";
+"Open at Login" = "로그인 시 열기";
+"Open Lyric at login" = "로그인 시 Lyric 열기";
+"Back to Current Line" = "현재 가사로 돌아가기";

@@ -25,24 +25,40 @@ actor LyricsService {
     }
 
     private func fetch(_ track: Track) async -> LyricsState {
-        if let exact = await exactMatch(for: track), let state = state(from: exact) {
-            return state
+        async let exactRecord = exactMatch(for: track)
+        async let searchResults = search(title: TitleCleaner.clean(track.title), artist: track.artist)
+        let exact = await exactRecord
+        let candidates = await searchResults.filter { record in
+            LyricsMatcher.accepts(
+                title: record.trackName,
+                artist: record.artistName,
+                durationDistance: durationDistance(record, track),
+                for: track
+            )
         }
 
-        let candidates = await search(title: TitleCleaner.clean(track.title), artist: track.artist)
-        let ranked = candidates.sorted { lhs, rhs in
-            durationDistance(lhs, track) < durationDistance(rhs, track)
+        if exact?.instrumental == true {
+            return .instrumental
         }
-        let best = ranked.first { $0.syncedLyrics?.isEmpty == false } ?? ranked.first { $0.plainLyrics?.isEmpty == false }
 
-        if let best,
-           LyricsMatcher.accepts(
-               title: best.trackName,
-               artist: best.artistName,
-               durationDistance: durationDistance(best, track),
-               for: track
-           ),
-           let state = state(from: best) {
+        // Synced uploads, closest in length first (the exact match is closest by definition).
+        // The closest one is used, with any single badly timed line fixed by the others.
+        let synced = ([exact].compactMap { $0 } + candidates.sorted { durationDistance($0, track) < durationDistance($1, track) })
+            .compactMap { record -> [LyricLine]? in
+                guard let text = record.syncedLyrics, !text.isEmpty else { return nil }
+                let lines = LRCParser.parse(text)
+                return lines.isEmpty ? nil : lines
+            }
+        if let base = synced.first {
+            let corrected = LyricsConsensus.corrected(base, using: Array(synced.dropFirst()))
+            // A moved line may now belong elsewhere in the order.
+            let lines = LyricBreaks.inserting(into: corrected.sorted { $0.time < $1.time })
+            return .loaded(Lyrics(lines: lines, isSynced: true))
+        }
+
+        let plain = [exact].compactMap { $0 } + candidates.sorted { durationDistance($0, track) < durationDistance($1, track) }
+        if let record = plain.first(where: { $0.plainLyrics?.isEmpty == false || $0.instrumental == true }),
+           let state = state(from: record) {
             return state
         }
         return .unavailable
