@@ -9,7 +9,7 @@ struct MenuBarLabelContent: View {
 
     var body: some View {
         HStack(spacing: Theme.Spacing.compact) {
-            if nowPlaying.track != nil, settings.hidesWhenPaused, !nowPlaying.isPlaying {
+            if nowPlaying.track != nil, settings.hidesWhenPaused, nowPlaying.isPausedLong {
                 MenuBarLevelMeter()
             } else if let track = nowPlaying.track {
                 switch display {

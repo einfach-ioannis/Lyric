@@ -6,7 +6,13 @@ import SwiftUI
 @Observable
 final class NowPlayingController {
     private(set) var track: Track?
-    private(set) var isPlaying = false
+    private(set) var isPlaying = false {
+        didSet { if isPlaying != oldValue { updatePausedLong() } }
+    }
+    /// True once playback has stayed paused past `pauseCollapseDelay`, so short pauses keep the full menu bar item.
+    private(set) var isPausedLong = false
+    @ObservationIgnored private var pausedLongTask: Task<Void, Never>?
+    private let pauseCollapseDelay: Duration = .seconds(10)
     private(set) var artwork: NSImage?
     private(set) var accent: Color = .white
     private(set) var lyrics: LyricsState = .idle
@@ -31,6 +37,10 @@ final class NowPlayingController {
     @ObservationIgnored private let lyricsService = LyricsService()
     @ObservationIgnored private var tickTask: Task<Void, Never>?
     @ObservationIgnored private var detailsTask: Task<Void, Never>?
+    @ObservationIgnored private var artworkTask: Task<Void, Never>?
+    /// When the last artwork attempt for the current track finished without an image.
+    @ObservationIgnored private var artworkFailedAt: Date?
+    private let artworkRetryInterval: TimeInterval = 4
     @ObservationIgnored private var observers: [any NSObjectProtocol] = []
 
     /// Lyrics are shown a touch early so the highlight lands as the line begins.
@@ -61,6 +71,7 @@ final class NowPlayingController {
 
     func start() {
         guard tickTask == nil else { return }
+        updatePausedLong()
 
         let center = DistributedNotificationCenter.default()
         for source in PlayerSource.allCases {
@@ -181,6 +192,13 @@ final class NowPlayingController {
         if trackChanged {
             track = snapshot.track
             loadDetails(for: snapshot.track)
+        } else if snapshot.track.artworkURL != track?.artworkURL {
+            // Spotify often reports the previous cover (or none) right as a track changes.
+            track = snapshot.track
+            loadArtwork(for: snapshot.track)
+        } else if artwork == nil, artworkTask == nil,
+                  let failedAt = artworkFailedAt, Date.now.timeIntervalSince(failedAt) > artworkRetryInterval {
+            loadArtwork(for: snapshot.track)
         }
         updateLyricIndex()
     }
@@ -205,12 +223,28 @@ final class NowPlayingController {
         isRepeating = nil
         volume = nil
         detailsTask?.cancel()
+        artworkTask?.cancel()
+        artworkTask = nil
+        artworkFailedAt = nil
         track = nil
         isPlaying = false
         artwork = nil
         accent = .white
         lyrics = .idle
         currentLyricIndex = nil
+    }
+
+    private func updatePausedLong() {
+        pausedLongTask?.cancel()
+        if isPlaying {
+            isPausedLong = false
+            return
+        }
+        pausedLongTask = Task { [weak self, pauseCollapseDelay] in
+            try? await Task.sleep(for: pauseCollapseDelay)
+            guard !Task.isCancelled, let self, !self.isPlaying else { return }
+            self.isPausedLong = true
+        }
     }
 
     private func reanchor(to position: TimeInterval) {
@@ -242,24 +276,32 @@ final class NowPlayingController {
         lyrics = .loading
         currentLyricIndex = nil
 
+        loadArtwork(for: track)
+
         detailsTask = Task {
-            async let lyricsResult = lyricsService.lyrics(for: track)
-            let artworkData = await artworkData(for: track)
-
-            guard !Task.isCancelled, self.track?.id == track.id else { return }
-            if let artworkData, let image = NSImage(data: artworkData) {
-                artwork = image
-                accent = await ArtworkPalette.accent(from: artworkData) ?? .white
-            } else {
-                accent = .white
-            }
-
-            let loadedLyrics = await lyricsResult
+            let loadedLyrics = await lyricsService.lyrics(for: track)
             guard !Task.isCancelled, self.track?.id == track.id else { return }
             withAnimation(Theme.Motion.lyric) {
                 lyrics = loadedLyrics
             }
             updateLyricIndex()
+        }
+    }
+
+    private func loadArtwork(for track: Track) {
+        artworkTask?.cancel()
+        artworkFailedAt = nil
+        artworkTask = Task {
+            let artworkData = await artworkData(for: track)
+            guard !Task.isCancelled, self.track?.id == track.id else { return }
+            artworkTask = nil
+            if let artworkData, let image = NSImage(data: artworkData) {
+                artwork = image
+                accent = await ArtworkPalette.accent(from: artworkData) ?? .white
+            } else {
+                artworkFailedAt = .now
+                if artwork == nil { accent = .white }
+            }
         }
     }
 

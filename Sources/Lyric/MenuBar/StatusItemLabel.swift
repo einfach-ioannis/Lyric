@@ -11,7 +11,7 @@ struct StatusItemLabel: View {
 
     private var showsInlineControls: Bool {
         settings.menuBarDisplay == .inlineControls && nowPlaying.track != nil
-            && !(settings.hidesWhenPaused && !nowPlaying.isPlaying)
+            && !(settings.hidesWhenPaused && nowPlaying.isPausedLong)
     }
 
     var body: some View {
