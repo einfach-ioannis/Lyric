@@ -19,7 +19,7 @@
 ## Features
 
 - 🎤 **Live lyrics** — synced line by line; click a line to jump there.
-- 🔒 **Lock Screen player** — artwork, lyrics and controls while your Mac is locked.
+- 🔒 **Lock Screen player** — the song and live lyrics while your Mac is locked, below the clock or on either side (or turn it off).
 - 🎛️ **Menu bar styles** — level meter, title, cover, the line being sung, or inline controls.
 - ⏯️ **Full controls** — play, skip, shuffle, repeat, volume and scrubbing.
 - 📜 **Up Next & Playlists** — see what’s coming and start any playlist with one click.

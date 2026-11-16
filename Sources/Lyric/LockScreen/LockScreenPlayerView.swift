@@ -1,18 +1,20 @@
 import SwiftUI
 
-/// The lock screen card: cover, song, live lyrics, progress and controls on a glass panel
-/// tinted with the artwork, in the spirit of the iPhone's lock screen player.
+/// The lock screen card: cover, song, a few lines of live lyrics and progress on a glass
+/// panel tinted with the artwork. Display only — no controls on the lock screen.
 struct LockScreenPlayerView: View {
     @Environment(NowPlayingController.self) private var nowPlaying
+    @Environment(AppSettings.self) private var settings
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             if let track = nowPlaying.track {
                 header(for: track)
-                LockScreenLyricsView()
-                    .frame(maxHeight: .infinity)
+                if settings.lockScreenShowsLyrics {
+                    LockScreenLyricsView()
+                        .frame(maxHeight: .infinity)
+                }
                 LockScreenProgress()
-                LockScreenControls()
             }
         }
         .padding(26)
@@ -52,7 +54,7 @@ struct LockScreenPlayerView: View {
     }
 }
 
-/// Big, centred lyrics that follow the song; just the title when there are none.
+/// A few lines of lyrics around the one being sung; starts at the top of the song with no gap.
 struct LockScreenLyricsView: View {
     @Environment(NowPlayingController.self) private var nowPlaying
     @State private var position = ScrollPosition(idType: Int.self)
@@ -60,41 +62,43 @@ struct LockScreenLyricsView: View {
     var body: some View {
         switch nowPlaying.lyrics {
         case .loaded(let lyrics):
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 14) {
-                    ForEach(lyrics.lines) { line in
-                        let isCurrent = !lyrics.isSynced || line.id == nowPlaying.currentLyricIndex
-                        Text(line.isBreak ? "♪" : line.text)
-                            .font(.system(size: 28, weight: .bold))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundStyle(.white.opacity(isCurrent ? 1 : 0.32))
-                            .blur(radius: isCurrent || !lyrics.isSynced ? 0 : 0.6)
-                            .scaleEffect(isCurrent ? 1 : 0.94, anchor: .leading)
-                            .animation(Theme.Motion.lyric, value: isCurrent)
+            GeometryReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 14) {
+                        ForEach(lyrics.lines) { line in
+                            let isLit = !lyrics.isSynced || line.id == nowPlaying.currentLyricIndex
+                            Text(line.isBreak ? "♪" : line.text)
+                                .font(.system(size: 28, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundStyle(.white.opacity(isLit ? 1 : 0.32))
+                                .scaleEffect(isLit ? 1 : 0.94, anchor: .leading)
+                                .animation(Theme.Motion.lyric, value: isLit)
+                        }
                     }
+                    .scrollTargetLayout()
+                    // No space above the first line, so the song starts at the top; room
+                    // below so the last lines can still reach the middle.
+                    .padding(.bottom, proxy.size.height / 2)
                 }
-                .scrollTargetLayout()
-                .padding(.vertical, 120)
-            }
-            .scrollPosition($position, anchor: .center)
-            .scrollIndicators(.hidden)
-            .scrollDisabled(lyrics.isSynced)
-            .mask {
-                LinearGradient(
-                    stops: [
-                        .init(color: .clear, location: 0),
-                        .init(color: .black, location: 0.18),
-                        .init(color: .black, location: 0.82),
-                        .init(color: .clear, location: 1),
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                .scrollPosition($position, anchor: .center)
+                .scrollIndicators(.hidden)
+                .scrollDisabled(true)
+                .mask {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .black, location: 0.08),
+                            .init(color: .black, location: 0.8),
+                            .init(color: .clear, location: 1),
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
             }
             .onChange(of: nowPlaying.currentLyricIndex, initial: true) { _, index in
-                guard let index else { return }
                 withAnimation(Theme.Motion.lyric) {
-                    position.scrollTo(id: index, anchor: .center)
+                    position.scrollTo(id: index ?? 0, anchor: .center)
                 }
             }
         case .loading:
@@ -108,14 +112,10 @@ struct LockScreenLyricsView: View {
     }
 
     private func placeholder(_ title: LocalizedStringKey, systemImage: String) -> some View {
-        VStack(spacing: 10) {
-            Image(systemName: systemImage)
-                .font(.system(size: 34))
-            Text(title)
-                .font(.title3.weight(.semibold))
-        }
-        .foregroundStyle(.white.opacity(0.45))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        Label(title, systemImage: systemImage)
+            .font(.title3.weight(.semibold))
+            .foregroundStyle(.white.opacity(0.45))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -148,32 +148,5 @@ struct LockScreenProgress: View {
                 .foregroundStyle(.white.opacity(0.6))
             }
         }
-    }
-}
-
-/// Previous, play/pause and next, sized for a quick click on the lock screen.
-struct LockScreenControls: View {
-    @Environment(NowPlayingController.self) private var nowPlaying
-
-    var body: some View {
-        HStack {
-            Spacer()
-            Button("Previous Track", systemImage: "backward.fill", action: nowPlaying.previousTrack)
-            Spacer()
-            Button(
-                nowPlaying.isPlaying ? LocalizedStringKey("Pause") : "Play",
-                systemImage: nowPlaying.isPlaying ? "pause.fill" : "play.fill",
-                action: nowPlaying.togglePlayPause
-            )
-            .font(.system(size: 40))
-            .contentTransition(.symbolEffect(.replace))
-            Spacer()
-            Button("Next Track", systemImage: "forward.fill", action: nowPlaying.nextTrack)
-            Spacer()
-        }
-        .font(.system(size: 28))
-        .labelStyle(.iconOnly)
-        .buttonStyle(TransportButtonStyle())
-        .frame(height: 52)
     }
 }

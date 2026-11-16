@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "你的音乐，就在菜单栏中。";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "你需要从 Spotify Developer Dashboard 获取免费的 Client ID。“设置”会引导你完成操作。";
 "You’re All Set" = "一切就绪";
-"A large player with live lyrics appears while your Mac is locked." = "Mac 锁定时，会显示带实时歌词的大型播放器。";
 "Copy Lyrics" = "复制歌词";
 "Copy Song and Artist" = "复制歌曲和艺人";
 "Left" = "左侧";
@@ -139,3 +138,9 @@
 "Search the Web" = "搜索网页";
 "Show in %@" = "在 %@ 中显示";
 "Show player and lyrics on the Lock Screen" = "在锁定屏幕上显示播放器和歌词";
+"Below the Clock" = "时钟下方";
+"Show lyrics" = "显示歌词";
+"Height" = "高度";
+"Preview" = "预览";
+"Lock Screen Player" = "锁定屏幕播放器";
+"The song and live lyrics appear while your Mac is locked." = "Mac 锁定时显示歌曲和实时歌词。";

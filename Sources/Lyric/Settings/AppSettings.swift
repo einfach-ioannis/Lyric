@@ -12,6 +12,8 @@ final class AppSettings {
         static let showsLockScreenPlayer = "showsLockScreenPlayer"
         static let hidesWhenPaused = "hidesWhenPaused"
         static let lockScreenPlacement = "lockScreenPlacement"
+        static let lockScreenHeight = "lockScreenHeight"
+        static let lockScreenShowsLyrics = "lockScreenShowsLyrics"
     }
 
     @ObservationIgnored private let defaults: UserDefaults
@@ -39,6 +41,16 @@ final class AppSettings {
         didSet { defaults.set(lockScreenPlacement.rawValue, forKey: Key.lockScreenPlacement) }
     }
 
+    /// How far down the screen the card's top edge sits, as a fraction of the screen height.
+    var lockScreenHeight: Double {
+        didSet { defaults.set(lockScreenHeight, forKey: Key.lockScreenHeight) }
+    }
+
+    /// Whether the lock screen card shows lyrics, or just the song.
+    var lockScreenShowsLyrics: Bool {
+        didSet { defaults.set(lockScreenShowsLyrics, forKey: Key.lockScreenShowsLyrics) }
+    }
+
     /// Shrinks the menu bar item to the level meter while nothing is playing.
     var hidesWhenPaused: Bool {
         didSet { defaults.set(hidesWhenPaused, forKey: Key.hidesWhenPaused) }
@@ -54,13 +66,17 @@ final class AppSettings {
             Key.scrollChangesVolume: true,
             Key.showsLockScreenPlayer: true,
             Key.hidesWhenPaused: false,
+            Key.lockScreenHeight: 0.3,
+            Key.lockScreenShowsLyrics: true,
         ])
         hasCompletedOnboarding = defaults.bool(forKey: Key.hasCompletedOnboarding)
         menuBarDisplay = MenuBarDisplay(rawValue: defaults.string(forKey: Key.menuBarDisplay) ?? "") ?? .title
         scrollChangesVolume = defaults.bool(forKey: Key.scrollChangesVolume)
         showsLockScreenPlayer = defaults.bool(forKey: Key.showsLockScreenPlayer)
         hidesWhenPaused = defaults.bool(forKey: Key.hidesWhenPaused)
-        lockScreenPlacement = LockScreenPlacement(rawValue: defaults.string(forKey: Key.lockScreenPlacement) ?? "") ?? .left
+        lockScreenPlacement = LockScreenPlacement(rawValue: defaults.string(forKey: Key.lockScreenPlacement) ?? "") ?? .belowClock
+        lockScreenHeight = defaults.double(forKey: Key.lockScreenHeight)
+        lockScreenShowsLyrics = defaults.bool(forKey: Key.lockScreenShowsLyrics)
         launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 

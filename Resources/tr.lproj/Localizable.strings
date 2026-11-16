@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "Müziğin, doğrudan menü çubuğunda.";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "Spotify Developer Dashboard'dan ücretsiz bir Client ID alman gerekiyor. Ayarlar, kurulumda sana yol gösterir.";
 "You’re All Set" = "Her Şey Hazır";
-"A large player with live lyrics appears while your Mac is locked." = "Mac'in kilitliyken canlı şarkı sözlerinin yer aldığı büyük bir oynatıcı görünür.";
 "Copy Lyrics" = "Şarkı Sözlerini Kopyala";
 "Copy Song and Artist" = "Şarkı ve Sanatçıyı Kopyala";
 "Left" = "Sol";
@@ -139,3 +138,9 @@
 "Search the Web" = "Web'de Ara";
 "Show in %@" = "%@ İçinde Göster";
 "Show player and lyrics on the Lock Screen" = "Oynatıcıyı ve şarkı sözlerini Kilit Ekranı'nda göster";
+"Below the Clock" = "Saatin altında";
+"Show lyrics" = "Şarkı sözlerini göster";
+"Height" = "Yükseklik";
+"Preview" = "Önizleme";
+"Lock Screen Player" = "Kilitli Ekran oynatıcısı";
+"The song and live lyrics appear while your Mac is locked." = "Mac’in kilitliyken şarkı ve canlı sözler görünür.";

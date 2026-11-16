@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "音楽をメニューバーから。";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "Spotify Developer Dashboard で無料の Client ID を取得してください。「設定」で手順を案内します。";
 "You’re All Set" = "準備完了";
-"A large player with live lyrics appears while your Mac is locked." = "Mac のロック中に、大きなプレーヤーと歌詞が表示されます。";
 "Copy Lyrics" = "歌詞をコピー";
 "Copy Song and Artist" = "曲名とアーティストをコピー";
 "Left" = "左";
@@ -139,3 +138,9 @@
 "Search the Web" = "ウェブを検索";
 "Show in %@" = "%@ に表示";
 "Show player and lyrics on the Lock Screen" = "ロック画面にプレーヤーと歌詞を表示";
+"Below the Clock" = "時計の下";
+"Show lyrics" = "歌詞を表示";
+"Height" = "高さ";
+"Preview" = "プレビュー";
+"Lock Screen Player" = "ロック画面のプレーヤー";
+"The song and live lyrics appear while your Mac is locked." = "Macのロック中に曲とライブ歌詞が表示されます。";

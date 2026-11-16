@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "Je muziek, direct in de menubalk.";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "Je hebt een gratis Client ID van het Spotify Developer Dashboard nodig. Instellingen helpt je daarbij.";
 "You’re All Set" = "Alles is klaar";
-"A large player with live lyrics appears while your Mac is locked." = "Er verschijnt een grote speler met live songteksten wanneer je Mac is vergrendeld.";
 "Copy Lyrics" = "Kopieer songteksten";
 "Copy Song and Artist" = "Kopieer nummer en artiest";
 "Left" = "Links";
@@ -139,3 +138,9 @@
 "Search the Web" = "Zoek op het internet";
 "Show in %@" = "Toon in %@";
 "Show player and lyrics on the Lock Screen" = "Toon de speler en songteksten op het toegangsscherm";
+"Below the Clock" = "Onder de klok";
+"Show lyrics" = "Songtekst tonen";
+"Height" = "Hoogte";
+"Preview" = "Voorvertoning";
+"Lock Screen Player" = "Speler op toegangsscherm";
+"The song and live lyrics appear while your Mac is locked." = "Het nummer en live songteksten verschijnen terwijl je Mac vergrendeld is.";

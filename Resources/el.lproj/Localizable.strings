@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "Η μουσική σου, κατευθείαν στη γραμμή μενού.";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "Θα χρειαστείς ένα δωρεάν Client ID από το Spotify Developer Dashboard. Οι Ρυθμίσεις θα σε καθοδηγήσουν.";
 "You’re All Set" = "Όλα έτοιμα";
-"A large player with live lyrics appears while your Mac is locked." = "Όταν το Mac σου είναι κλειδωμένο, εμφανίζεται ένα μεγάλο πρόγραμμα αναπαραγωγής με ζωντανούς στίχους.";
 "Copy Lyrics" = "Αντιγραφή στίχων";
 "Copy Song and Artist" = "Αντιγραφή τραγουδιού και καλλιτέχνη";
 "Left" = "Αριστερά";
@@ -139,3 +138,9 @@
 "Search the Web" = "Αναζήτηση στον ιστό";
 "Show in %@" = "Εμφάνιση στο %@";
 "Show player and lyrics on the Lock Screen" = "Εμφάνιση του προγράμματος αναπαραγωγής και των στίχων στην οθόνη κλειδώματος";
+"Below the Clock" = "Κάτω από το ρολόι";
+"Show lyrics" = "Εμφάνιση στίχων";
+"Height" = "Ύψος";
+"Preview" = "Προεπισκόπηση";
+"Lock Screen Player" = "Πρόγραμμα αναπαραγωγής στην οθόνη κλειδώματος";
+"The song and live lyrics appear while your Mac is locked." = "Το τραγούδι και οι ζωντανοί στίχοι εμφανίζονται όσο το Mac είναι κλειδωμένο.";

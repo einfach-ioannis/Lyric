@@ -1,7 +1,8 @@
 import Foundation
 
-/// Which side of the lock screen the player card sits on, clear of the clock and password field.
+/// Where the lock screen card sits. Every option stays clear of the password field.
 nonisolated enum LockScreenPlacement: String, CaseIterable, Identifiable, Sendable {
+    case belowClock
     case left
     case right
 
@@ -9,6 +10,7 @@ nonisolated enum LockScreenPlacement: String, CaseIterable, Identifiable, Sendab
 
     var localizedName: String {
         switch self {
+        case .belowClock: String(localized: "Below the Clock")
         case .left: String(localized: "Left")
         case .right: String(localized: "Right")
         }

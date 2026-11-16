@@ -3,7 +3,7 @@ import SwiftUI
 
 /// The right-click menu of the menu bar item.
 enum QuickMenu {
-    static func make(nowPlaying: NowPlayingController, library: LibraryController) -> NSMenu {
+    static func make(nowPlaying: NowPlayingController, library: LibraryController, settings: AppSettings) -> NSMenu {
         let menu = NSMenu()
         menu.autoenablesItems = false
 
@@ -46,6 +46,13 @@ enum QuickMenu {
         }
 
         menu.addItem(.separator())
+        if LockScreenSpace.isAvailable {
+            let lockItem = ClosureMenuItem.make(title: String(localized: "Lock Screen Player"), symbol: "lock.display") {
+                settings.showsLockScreenPlayer.toggle()
+            }
+            lockItem.state = settings.showsLockScreenPlayer ? .on : .off
+            menu.addItem(lockItem)
+        }
         menu.addItem(ClosureMenuItem.make(title: String(localized: "Settings…"), symbol: "gearshape") {
             SettingsWindowController.shared.show()
         })

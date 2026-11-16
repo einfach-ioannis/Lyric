@@ -120,7 +120,6 @@
 "Your music, right in the menu bar." = "Twoja muzyka na pasku menu.";
 "You’ll need a free Client ID from the Spotify Developer Dashboard. Settings walks you through it." = "Potrzebujesz bezpłatnego Client ID z Spotify Developer Dashboard. Ustawienia przeprowadzą Cię przez konfigurację.";
 "You’re All Set" = "Wszystko gotowe";
-"A large player with live lyrics appears while your Mac is locked." = "Gdy Mac jest zablokowany, pojawia się duży odtwarzacz z tekstem na żywo.";
 "Copy Lyrics" = "Kopiuj tekst";
 "Copy Song and Artist" = "Kopiuj utwór i wykonawcę";
 "Left" = "Lewa";
@@ -139,3 +138,9 @@
 "Search the Web" = "Szukaj w internecie";
 "Show in %@" = "Pokaż w %@";
 "Show player and lyrics on the Lock Screen" = "Pokazuj odtwarzacz i tekst na ekranie blokady";
+"Below the Clock" = "Pod zegarem";
+"Show lyrics" = "Pokazuj tekst";
+"Height" = "Wysokość";
+"Preview" = "Podgląd";
+"Lock Screen Player" = "Odtwarzacz na ekranie blokady";
+"The song and live lyrics appear while your Mac is locked." = "Utwór i tekst na żywo pojawiają się, gdy Mac jest zablokowany.";

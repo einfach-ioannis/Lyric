@@ -67,7 +67,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     private func showQuickMenu(for event: NSEvent) {
         guard let button = statusItem.button else { return }
         if popover.isShown { closePopover() }
-        let menu = QuickMenu.make(nowPlaying: nowPlaying, library: library)
+        let menu = QuickMenu.make(nowPlaying: nowPlaying, library: library, settings: settings)
         menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 4), in: button)
     }
 
