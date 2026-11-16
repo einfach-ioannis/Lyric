@@ -16,6 +16,10 @@
   <img src="docs/screenshots/lock-screen.png" width="360" alt="Lyric on the Lock Screen">
 </p>
 
+<p align="center">
+  <img src="docs/screenshots/settings.png" width="560" alt="Lyric settings">
+</p>
+
 ## Features
 
 - 🎤 **Live lyrics** — synced line by line; click a line to jump there.

@@ -144,3 +144,7 @@
 "Preview" = "プレビュー";
 "Lock Screen Player" = "ロック画面のプレーヤー";
 "The song and live lyrics appear while your Mac is locked." = "Macのロック中に曲とライブ歌詞が表示されます。";
+"How to get a Client ID" = "クライアントIDの取得方法";
+"Paste your Client ID" = "クライアントIDを貼り付け";
+"Version %@" = "バージョン %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "歌詞提供: LRCLIB · Apple および Spotify とは無関係です";

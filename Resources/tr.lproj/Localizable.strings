@@ -144,3 +144,7 @@
 "Preview" = "Önizleme";
 "Lock Screen Player" = "Kilitli Ekran oynatıcısı";
 "The song and live lyrics appear while your Mac is locked." = "Mac’in kilitliyken şarkı ve canlı sözler görünür.";
+"How to get a Client ID" = "İstemci kimliği nasıl alınır";
+"Paste your Client ID" = "İstemci kimliğini yapıştır";
+"Version %@" = "Sürüm %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Sözler LRCLIB’den · Apple veya Spotify ile bağlantılı değildir";

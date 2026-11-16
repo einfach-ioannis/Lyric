@@ -44,6 +44,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if CommandLine.arguments.contains("--onboarding") {
             onboarding.show(nowPlaying: nowPlaying, library: library, settings: settings)
         }
+        if CommandLine.arguments.contains("--settings") {
+            SettingsWindowController.shared.show()
+        }
         if CommandLine.arguments.contains("--preview-lock-screen") {
             Task {
                 try? await Task.sleep(for: .seconds(2))

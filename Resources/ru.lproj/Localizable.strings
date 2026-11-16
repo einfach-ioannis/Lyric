@@ -144,3 +144,7 @@
 "Preview" = "Просмотр";
 "Lock Screen Player" = "Плеер на экране блокировки";
 "The song and live lyrics appear while your Mac is locked." = "Песня и текст в реальном времени появляются, пока Mac заблокирован.";
+"How to get a Client ID" = "Как получить Client ID";
+"Paste your Client ID" = "Вставь свой Client ID";
+"Version %@" = "Версия %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Тексты из LRCLIB · Не связано с Apple или Spotify";

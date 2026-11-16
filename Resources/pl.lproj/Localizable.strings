@@ -144,3 +144,7 @@
 "Preview" = "Podgląd";
 "Lock Screen Player" = "Odtwarzacz na ekranie blokady";
 "The song and live lyrics appear while your Mac is locked." = "Utwór i tekst na żywo pojawiają się, gdy Mac jest zablokowany.";
+"How to get a Client ID" = "Jak uzyskać identyfikator klienta";
+"Paste your Client ID" = "Wklej identyfikator klienta";
+"Version %@" = "Wersja %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Teksty z LRCLIB · Bez powiązań z Apple ani Spotify";

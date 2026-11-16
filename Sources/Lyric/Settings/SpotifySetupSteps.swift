@@ -4,7 +4,6 @@ import SwiftUI
 struct SpotifySetupSteps: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.tight) {
-            Text("Connect Spotify to see Up Next, switch playlists and like songs from the menu bar.")
             Text("1. Open the dashboard and click **Create app**. Any name and description will do.")
             Text("2. Add the **Redirect URI** below and click **Add**.")
             Text("3. Under “Which API/SDKs are you planning to use?”, tick only **Web API**.")

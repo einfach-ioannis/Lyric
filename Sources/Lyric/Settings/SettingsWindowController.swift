@@ -31,8 +31,10 @@ final class SettingsWindowController {
         let controller = NSHostingController(rootView: makeContent())
         controller.sizingOptions = [.preferredContentSize]
         let window = NSWindow(contentViewController: controller)
-        window.styleMask = [.titled, .closable]
-        window.title = String(localized: "Lyric Settings")
+        window.styleMask = [.titled, .closable, .fullSizeContentView]
+        window.titlebarAppearsTransparent = true
+        window.toolbarStyle = .unified
+        // The page title (from `navigationTitle`) names the window.
         window.isReleasedWhenClosed = false
         window.center()
         self.window = window

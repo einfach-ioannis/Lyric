@@ -144,3 +144,7 @@
 "Preview" = "미리보기";
 "Lock Screen Player" = "잠금 화면 플레이어";
 "The song and live lyrics appear while your Mac is locked." = "Mac이 잠겨 있는 동안 노래와 실시간 가사가 표시됩니다.";
+"How to get a Client ID" = "클라이언트 ID 받는 방법";
+"Paste your Client ID" = "클라이언트 ID 붙여넣기";
+"Version %@" = "버전 %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "가사 제공: LRCLIB · Apple 및 Spotify와 무관";

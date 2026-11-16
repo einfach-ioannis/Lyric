@@ -144,3 +144,7 @@
 "Preview" = "预览";
 "Lock Screen Player" = "锁定屏幕播放器";
 "The song and live lyrics appear while your Mac is locked." = "Mac 锁定时显示歌曲和实时歌词。";
+"How to get a Client ID" = "如何获取客户端 ID";
+"Paste your Client ID" = "粘贴你的客户端 ID";
+"Version %@" = "版本 %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "歌词来自 LRCLIB · 与 Apple 或 Spotify 无关";

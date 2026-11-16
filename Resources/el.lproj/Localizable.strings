@@ -144,3 +144,7 @@
 "Preview" = "Προεπισκόπηση";
 "Lock Screen Player" = "Πρόγραμμα αναπαραγωγής στην οθόνη κλειδώματος";
 "The song and live lyrics appear while your Mac is locked." = "Το τραγούδι και οι ζωντανοί στίχοι εμφανίζονται όσο το Mac είναι κλειδωμένο.";
+"How to get a Client ID" = "Πώς να πάρεις Client ID";
+"Paste your Client ID" = "Επικόλλησε το Client ID";
+"Version %@" = "Έκδοση %@";
+"Lyrics by LRCLIB · Not affiliated with Apple or Spotify" = "Στίχοι από το LRCLIB · Χωρίς σχέση με την Apple ή το Spotify";
