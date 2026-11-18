@@ -17,6 +17,10 @@ final class LockScreenController {
     private var observers: [(NotificationCenter, any NSObjectProtocol)] = []
     private var stateObservation: Task<Void, Never>?
     private var previewTask: Task<Void, Never>?
+    /// Counts down while paused; once it fires the card goes away until music plays again.
+    private var pauseTimeout: Task<Void, Never>?
+    private var pausedTooLong = false
+    private static let pausedHideDelay: Duration = .seconds(5 * 60)
 
     init(nowPlaying: NowPlayingController, settings: AppSettings) {
         self.nowPlaying = nowPlaying
@@ -42,6 +46,7 @@ final class LockScreenController {
         let changes = Observations { [nowPlaying, settings] in
             (
                 nowPlaying.track != nil,
+                nowPlaying.isPlaying,
                 settings.showsLockScreenPlayer,
                 settings.lockScreenPlacement,
                 settings.lockScreenHeight,
@@ -84,12 +89,31 @@ final class LockScreenController {
         update()
     }
 
+    /// Starts the pause countdown when playback stops, and clears it when playback resumes.
+    private func trackPause() {
+        if nowPlaying.isPlaying || nowPlaying.track == nil {
+            pauseTimeout?.cancel()
+            pauseTimeout = nil
+            pausedTooLong = false
+        } else if pauseTimeout == nil, !pausedTooLong {
+            pauseTimeout = Task { [weak self] in
+                try? await Task.sleep(for: Self.pausedHideDelay)
+                guard !Task.isCancelled, let self else { return }
+                self.pauseTimeout = nil
+                self.pausedTooLong = true
+                self.update()
+            }
+        }
+    }
+
     private func update() {
+        trackPause()
         if !isLocked, previewTask != nil, panel?.isVisible == true {
             reposition()
             return
         }
         let shouldShow = isLocked && settings.showsLockScreenPlayer && nowPlaying.track != nil
+            && !pausedTooLong
         if shouldShow {
             show()
         } else {
